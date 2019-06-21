@@ -1,0 +1,30 @@
+#+TITLE:     Org-capture template for ledger
+#+AUTHOR:    Stefan Huchler
+
+org-mode capture template for shop items from paper bills with history
+and autocompletion.
+
+* Setup
+#+begin_src emacs-lisp
+  (add-to-list 'load-path "<< path-to-this-files >>")
+  (load-library "ledger-shopping-capture")
+  (setq org-capture-templates
+	`(("r" "(R)eceipt" plain
+	   (file+function "~/output.org"
+			  (lambda () ""
+			    (progn (org-babel-goto-named-src-block "balance")
+				   (org-babel-goto-src-block-head)(forward-line))))
+	   (function sbit/ledger-shopping-capture-dialog)
+	   :jump-to-captured t
+	   :empty-lines-after 1
+	   :immediate-finish t)))
+#+end_src
+
+inside the output.org I have a ledger src block if you want the output
+into a ledger file replace the output with:
+
+#+begin_src emacs-lisp
+  (file "path/to/ledger-file")
+#+end_src
+
+
