@@ -1,8 +1,8 @@
-#+TITLE:     Org-capture template for ledger
+#+TITLE:     Org-capture Template for Ledger
 #+AUTHOR:    Stefan Huchler
 
-org-mode capture template for shop items from paper bills with history
-and autocompletion.
+Org-Capture Template for shop items from paper bills with history
+and autocompletion in [[https://www.ledger-cli.org/][Ledger]] format.
 
 * Setup
 #+begin_src emacs-lisp
