@@ -23,6 +23,7 @@
 ;;; Code:
 
 (require 'f)
+(require 'json-reformat)
 
 (defun get-table-content (&optional start end)
   (let* ((start (or start (buffer-end -1)))
@@ -58,13 +59,20 @@ Argument LINENR where the table data starts."
 (defun print-to-file2 (filename data)
   (let* ((print-length 5000)
 	 (data-string (prin1-to-string data)))
-    (stringp data-string)
     (f-write-text data-string 'utf-8 filename)))
+
+(defun print-to-json-file (filename data)
+  (f-write-text (json-reformat-from-string
+		 (json-encode data))
+		'utf-8 filename))
 
 (defun print-to-file (filename data)
   (with-temp-file filename
     (let* ((print-length 5000))
       (prin1 data (current-buffer)))))
+
+(defun read-from-json-file (filename)
+  (read (f-read filename)))
 
 (defun read-from-file2 (filename)
   (read (f-read filename)))
@@ -75,6 +83,13 @@ Argument LINENR where the table data starts."
     (cl-assert (eq (point) (point-min)))
     (read (current-buffer))))
 
+(defun json-write-file (data file &optional pretty)
+  "Write DATA in json format to FILE.
+Optional argument PRETTY formats the json string to be more human readable."
+  (with-temp-file file
+    (let* ((data (json-encode data))
+	   (data (if pretty (json-reformat-from-string data) data)))
+      (insert data))))
 
 (provide 'helper)
 
