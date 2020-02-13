@@ -71,9 +71,6 @@ Argument LINENR where the table data starts."
     (let* ((print-length 5000))
       (prin1 data (current-buffer)))))
 
-(defun read-from-json-file (filename)
-  (read (f-read filename)))
-
 (defun read-from-file2 (filename)
   (read (f-read filename)))
 
@@ -90,6 +87,9 @@ Optional argument PRETTY formats the json string to be more human readable."
     (let* ((data (json-encode data))
 	   (data (if pretty (json-reformat-from-string data) data)))
       (insert data))))
+
+(defun json-read-file (filename)
+  (json-read-from-string (f-read filename)))
 
 (provide 'helper)
 
